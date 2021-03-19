@@ -1,0 +1,8 @@
+[book]
+authors = [""]
+language = "en"
+multilingual = false
+src = ""
+title = "WARegistry Documentation"
+[output.html]
+theme = "theme"
