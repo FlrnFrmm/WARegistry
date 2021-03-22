@@ -1,8 +1,15 @@
 [package]
-name = "WARegistry"
+name = "waregistry"
 version = "0.1.0"
 authors = ["Florian Fromm <flrn.frmm@gmail.com>"]
 edition = "2018"
 
 [dependencies]
-actix-web = { version = "3.3.2" }
+tonic = { version = "0.4.1", features = ["default", "tls"] }
+prost = { version = "0.7.0" }
+tokio = { version = "1.4.0", features = ["full"] }
+futures = { version = "0.3.13" }
+anyhow = { version = "1.0.39" }
+
+[build-dependencies]
+tonic-build = { version = "0.4.1" }
