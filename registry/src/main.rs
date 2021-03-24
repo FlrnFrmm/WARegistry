@@ -1,14 +1,17 @@
-use actix_web::{get, web, App, HttpServer, Responder};
+mod proto;
 
-#[get("/{id}/{name}")]
-async fn index(web::Path((id, name)): web::Path<(u32, String)>) -> impl Responder {
-    format!("Hello {}! id:{}", name, id)
-}
+use tonic::{transport::Server};
 
-#[actix_web::main]
-async fn main() -> std::io::Result<()> {
-    HttpServer::new(|| App::new().service(index))
-        .bind("127.0.0.1:8080")?
-        .run()
-        .await
+#[tokio::main]
+async fn main() -> anyhow::Result<()> {
+    let addr = "[::1]:10815".parse().unwrap();
+
+    println!("Server listening on {}", addr);
+
+    Server::builder()
+        .add_service(proto::say_server::SayServer::new(proto::waregistry::MySay::default()))
+        .add_service(proto::push_server::PushServer::new(proto::waregistry::PushService::default()))
+        .serve(addr)
+        .await?;
+    Ok(())
 }
